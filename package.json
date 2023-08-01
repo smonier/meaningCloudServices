@@ -19,10 +19,10 @@
         "lint": "yarn lint:scss && yarn lint:js",
         "lint:fix": "yarn lint:js:fix && yarn lint:scss:fix"
     },
-    "description": "translation-deepl for Jahia",
+    "description": "chatGPT Keywords Generation for Jahia",
     "main": "index.js",
-    "repository": "git@github.com:Jahia/translation-deepl.git",
-    "author": "Jahia Customer Support Team <support@jahia.com>",
+    "repository": "git@github.com:smonier/chatGPTKeyword.git",
+    "author": "Stephane Monier <smonier@jahia.com>",
     "license": "MIT",
     "jahia": {
         "remotes": {

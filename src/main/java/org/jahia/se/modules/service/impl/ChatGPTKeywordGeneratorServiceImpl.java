@@ -9,6 +9,10 @@ import java.net.URL;
 import java.util.*;
 import javax.jcr.RepositoryException;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.jahia.api.Constants;
 import org.jahia.se.modules.service.ChatGPTKeywordGeneratorService;
 import org.jahia.services.content.JCRNodeWrapper;
@@ -24,13 +28,17 @@ import org.osgi.service.component.annotations.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
 @Component(service = {ChatGPTKeywordGeneratorService.class, ManagedService.class}, property = "service.pid=org.jahia.se.modules.chatGPT", immediate = true)
 public class ChatGPTKeywordGeneratorServiceImpl implements ChatGPTKeywordGeneratorService, ManagedService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ChatGPTKeywordGeneratorServiceImpl.class);
     private String apiKey;
+    private String model;
     private String max_tokens;
     private String temperature;
+    private String meaningCloudApikey;
+    private String meaningCloudApiName;
     @Override
     public void generateKeyword(String path, String language) {
 
@@ -50,27 +58,40 @@ public class ChatGPTKeywordGeneratorServiceImpl implements ChatGPTKeywordGenerat
             });
 
             // Set the API endpoint URL
-            URL url = new URL("https://api.openai.com/v1/engines/chatgpt/generate");
-
+          //  URL url = new URL("https://api.openai.com/v1/completions");
+            URL url = new URL("https://api.meaningcloud.com/"+meaningCloudApiName);
             // Create an HttpURLConnection
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
-            conn.setRequestProperty("Content-Type", "application/json");
-            conn.setRequestProperty("Authorization", "Bearer "+ apiKey);
+         //   conn.setRequestProperty("Content-Type", "application/json");
+        //    conn.setRequestProperty("Authorization", "Bearer "+ apiKey);
 
             // Create the JSON payload with the input text
             String inputText = "";
             for (Map.Entry<String, String> entry : contentToAnalyse.entrySet()) {
-                inputText += entry.getValue();
+                    inputText += entry.getValue();
             }
-            String payload = "{\"prompt\":\"" + inputText + "\",\"max_tokens\":"+ max_tokens +",\"temperature\":"+ temperature +"}";
+            String cleanText = removeHtmlTags(inputText);
 
+            //String payload = "{\"model\":\"" + model + "\",\"prompt\":\"" + cleanText + "\",\"max_tokens\":"+ max_tokens +",\"temperature\":"+ temperature +"}";
+            StringBuilder payload = new StringBuilder();
+
+            // Ajout de données à la charge utile
+            payload.append("{");
+            payload.append("\"key\": \""+ meaningCloudApikey +"\", ");
+            payload.append("\"txt\": \""+ cleanText +"\", ");
+            payload.append("\"model\": \"IAB_2.0\"");
+            payload.append("}");
+
+
+            String finalPayload = payload.toString();
+            LOGGER.info(payload.toString());
             // Enable output for POST request
             conn.setDoOutput(true);
 
             // Write the JSON payload to the request body
             OutputStream os = conn.getOutputStream();
-            os.write(payload.getBytes());
+            os.write(finalPayload.getBytes());
             os.flush();
 
             // Check for response code
@@ -109,11 +130,25 @@ public class ChatGPTKeywordGeneratorServiceImpl implements ChatGPTKeywordGenerat
             apiKey = (String) dictionary.get("chatGPT.apiKey");
             max_tokens = (String) dictionary.get("chatGPT.max_tokens");
             temperature = (String) dictionary.get("chatGPT.temperature");
+            model = (String) dictionary.get("chatGPT.model");
+            meaningCloudApikey = (String) dictionary.get("meaningCloud.apikey");
+            meaningCloudApiName = (String) dictionary.get("meaningCloud.apiName");
+
 
         }
         if (!(apiKey != null && !apiKey.trim().isEmpty()))
             LOGGER.error("chatGPT apiKey not defined. Please add it to org.jahia.se.modules.chatGPT.cfg");
         LOGGER.debug("chatGPT.apiKey = {}", apiKey);
 
+    }
+
+    public static String removeHtmlTags(String htmlText) {
+        Document doc = Jsoup.parse(htmlText);
+       // Elements elements = doc.getAllElements();
+       // for (Element element : elements) {
+       //     // Remove the HTML tags while preserving the text content
+       //     element.unwrap();
+       // }
+        return doc.text();
     }
 }

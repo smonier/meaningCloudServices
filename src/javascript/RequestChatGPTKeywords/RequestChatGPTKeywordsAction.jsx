@@ -16,13 +16,13 @@ export const RequestChatGPTKeywordsAction = ({path, render: Render, ...otherProp
 
     return <Render {...otherProps}
                    buttonLabel={t('label.requestKeywords', {
-                       languageDisplay: lang.displayName,
+                       languageDisplay: language,
                        displayName: node.displayName
                    })}
                    onClick={async () => {
                        const formData = new FormData();
-                       formData.append('language', siteInfo.language.toString());
-                       const response = await fetch(`${contextJsParameters.contextPath}/cms/editframe/default/${language}${path}.requestTranslationAction.do`, {
+                       formData.append('language', language);
+                       const response = await fetch(`${contextJsParameters.contextPath}/cms/editframe/default/${language}${path}.requestChatGPTKeywords.do`, {
                            method: 'POST',
                            body: formData
                        });
