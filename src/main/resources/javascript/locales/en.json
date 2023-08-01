@@ -1,0 +1,7 @@
+
+{
+  "label": {
+    "requestKeywords": "Ask chatGPT to generate keywords for <em>{{displayName}}</em> - {{languageDisplay}}",
+    "menu": "chatGPT"
+  }
+}
