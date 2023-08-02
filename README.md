@@ -17,7 +17,8 @@ The aim of this module is to leverage Meaning Cloud Text Analysis Services for t
 ## API KEY
 You will need to request an API key from their website (https://www.meaningcloud.com/developer/apis) and update the org.jahia.se.modules.meaningCloudServices.cfg configuration file
 
-meaningCloud.apikey=YOUR_API_KEY 
+meaningCloud.apikey=YOUR_API_KEY
+ 
 meaningCloud.classificationModel=IAB_2.0-tier4 (you can select a different model from the ones available : https://learn.meaningcloud.com/developer/deep-categorization/1.0/models)
 
 ## How to use
