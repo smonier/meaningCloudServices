@@ -1,11 +1,11 @@
 import {registry} from '@jahia/ui-extender';
-import register from './RequestChatGPTKeywords/register';
+import register from './RequestMeaningCloudServices/register';
 
 export default function () {
-    registry.add('callback', 'requestChatGPTKeywords', {
+    registry.add('callback', 'requestMeaningCloudServices', {
         targets: ['jahiaApp-init:60'],
         callback: register
     });
 }
 
-console.debug('%c chatGPT service is activated', 'color: #3c8cba');
+console.debug('%c MeaningCloud service is activated', 'color: #3c8cba');

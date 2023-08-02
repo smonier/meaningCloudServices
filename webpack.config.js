@@ -13,7 +13,7 @@ module.exports = (env, argv) => {
         },
         output: {
             path: path.resolve(__dirname, 'src/main/resources/javascript/apps/'),
-            filename: 'chatGPTKeyword.bundle.js',
+            filename: 'meaningCloudServices.bundle.js',
             chunkFilename: '[name].jahia.[chunkhash:6].js'
         },
         resolve: {
@@ -80,8 +80,8 @@ module.exports = (env, argv) => {
         },
         plugins: [
             new ModuleFederationPlugin({
-                name: "requestChatGPTKeywords",
-                library: { type: "assign", name: "appShell.remotes.requestChatGPTKeywords" },
+                name: "requestMeaningCloudServices",
+                library: { type: "assign", name: "appShell.remotes.requestMeaningCloudServices" },
                 filename: "remoteEntry.js",
                 exposes: {
                     './init': './src/javascript/init'

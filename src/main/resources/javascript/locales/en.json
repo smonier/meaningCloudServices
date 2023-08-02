@@ -1,7 +1,8 @@
 
 {
   "label": {
-    "requestKeywords": "Ask chatGPT to generate keywords for <em>{{displayName}}</em> - {{languageDisplay}}",
-    "menu": "chatGPT"
+    "triggerTopicsRequest": "Auto Tagging for <em>{{displayName}}</em> - {{languageDisplay}}",
+    "triggerClassificationRequest": "Add Interest for <em>{{displayName}}</em> - {{languageDisplay}}",
+    "menu": "Meaning Cloud Text Services"
   }
 }
