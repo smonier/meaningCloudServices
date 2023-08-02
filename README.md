@@ -25,7 +25,7 @@ meaningCloud.namingConvention=IPTC_en (you can select a different model from the
 
 ## How to use
 - Right-click on a content of type jnt:page or jnt:content.
-- The Meaning Cloud Text Services menu should appear at the bottom, containing two sub-items:
+- The Meaning Cloud Text Services menu should appear at the bottom, containing the following sub-items:
 	- Requesting Auto Tagging with Topic Extraction
     - Requesting Auto Tagging with Text Classification
 	- Requesting to Add Interests with Deep Categorisation
