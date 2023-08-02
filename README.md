@@ -21,7 +21,7 @@ meaningCloud.apikey=YOUR_API_KEY
  
 meaningCloud.classificationModel=IAB_2.0-tier4 (you can select a different model from the ones available : https://learn.meaningcloud.com/developer/deep-categorization/1.0/models)
 
-meaningCloud.namingConvention=IPTC_en (you select a different model from the ones available : https://learn.meaningcloud.com/developer/text-classification/2.0/models)
+meaningCloud.namingConvention=IPTC_en (you can select a different model from the ones available : https://learn.meaningcloud.com/developer/text-classification/2.0/models)
 
 ## How to use
 - Right-click on a content of type jnt:page or jnt:content.

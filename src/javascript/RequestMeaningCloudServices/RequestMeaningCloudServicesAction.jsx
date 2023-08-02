@@ -5,6 +5,7 @@ import {useSelector} from 'react-redux';
 import {toIconComponentFunction} from '@jahia/moonstone';
 
 export const RequestMeaningCloudServicesAction = ({path, render: Render, ...otherProps}) => {
+
     const {t} = useTranslation('meaningCloudServices');
     const {language, site} = useSelector(state => ({language: state.language, site: state.site}));
     const {siteInfo, loading} = useSiteInfo({siteKey: site, displayLanguage: language});
@@ -13,11 +14,13 @@ export const RequestMeaningCloudServicesAction = ({path, render: Render, ...othe
     if (loading || !siteInfo || nodeLoading || !node) {
         return null;
     }
+
     if (otherProps.service == "topics") {
         return <Render {...otherProps}
             buttonLabel={t('label.triggerTopicsRequest', {
                 languageDisplay: language,
                 displayName: node.displayName
+
             })}
             onClick={async () => {
                 const formData = new FormData();
