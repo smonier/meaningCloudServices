@@ -13,22 +13,53 @@ export const RequestMeaningCloudServicesAction = ({path, render: Render, ...othe
     if (loading || !siteInfo || nodeLoading || !node) {
         return null;
     }
-
-    return <Render {...otherProps}
-                   buttonLabel={t('label.triggerTopicsRequest', {
-                       languageDisplay: language,
-                       displayName: node.displayName
-                   })}
-                   onClick={async () => {
-                       const formData = new FormData();
-                       formData.append('language', language);
-                       formData.append('service', otherProps.service);
-                       const response = await fetch(`${contextJsParameters.contextPath}/cms/editframe/default/${language}${path}.requestMeaningCloudServices.do`, {
-                           method: 'POST',
-                           body: formData
-                       });
-                   }}/>
-
-
+    if (otherProps.service == "topics") {
+        return <Render {...otherProps}
+            buttonLabel={t('label.triggerTopicsRequest', {
+                languageDisplay: language,
+                displayName: node.displayName
+            })}
+            onClick={async () => {
+                const formData = new FormData();
+                formData.append('language', language);
+                formData.append('service', otherProps.service);
+                const response = await fetch(`${contextJsParameters.contextPath}/cms/editframe/default/${language}${path}.requestMeaningCloudServices.do`, {
+                    method: 'POST',
+                    body: formData
+                });
+            }}/>
+    } 
+    if (otherProps.service == "classification") {
+        return <Render {...otherProps}
+            buttonLabel={t('label.triggerClassificationRequest', {
+                languageDisplay: language,
+                displayName: node.displayName
+            })}
+            onClick={async () => {
+                const formData = new FormData();
+                formData.append('language', language);
+                formData.append('service', otherProps.service);
+                const response = await fetch(`${contextJsParameters.contextPath}/cms/editframe/default/${language}${path}.requestMeaningCloudServices.do`, {
+                    method: 'POST',
+                    body: formData
+                });
+            }}/>
+    } 
+    if (otherProps.service == "categorisation") {
+        return <Render {...otherProps}
+            buttonLabel={t('label.triggerCategorisationRequest', {
+                languageDisplay: language,
+                displayName: node.displayName
+            })}
+            onClick={async () => {
+                const formData = new FormData();
+                formData.append('language', language);
+                formData.append('service', otherProps.service);
+                const response = await fetch(`${contextJsParameters.contextPath}/cms/editframe/default/${language}${path}.requestMeaningCloudServices.do`, {
+                    method: 'POST',
+                    body: formData
+                });
+            }}/>
+    } 
 };
 
