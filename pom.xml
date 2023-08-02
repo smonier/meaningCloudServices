@@ -62,8 +62,8 @@
     <description>This is the custom module (Sample Module) for running on a Jahia server.</description>
 
     <scm>
-        <connection>scm:dummy:uri</connection>
-        <developerConnection>scm:dummy:uri</developerConnection>
+    <connection>scm:git@github.com:smonier/meaningCloudServices.git</connection>
+    <developerConnection>scm:git@github.com:smonier/meaningCloudServices.git</developerConnection>
     </scm>
     <properties>
         <jahia-depends>default,content-editor=4.0.0</jahia-depends>
