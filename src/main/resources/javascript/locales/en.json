@@ -1,8 +1,9 @@
 
 {
   "label": {
-    "triggerClassificationRequest": "Add Interests for <em>{{displayName}}</em> - {{languageDisplay}}",
-    "triggerTopicsRequest": "Auto Tagging for <em>{{displayName}}</em> - {{languageDisplay}}",
+    "triggerCategorisationRequest": "Extract Categorisation as Interests for <em>{{displayName}}</em> - {{languageDisplay}}",
+    "triggerClassificationRequest": "Extract Classification as Tags for <em>{{displayName}}</em> - {{languageDisplay}}",
+    "triggerTopicsRequest": "Extract Topics as Tags for <em>{{displayName}}</em> - {{languageDisplay}}",
     "menu": "Meaning Cloud Text Services"
   }
 }

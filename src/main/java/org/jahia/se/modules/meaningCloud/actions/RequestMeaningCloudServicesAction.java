@@ -64,6 +64,10 @@ public class RequestMeaningCloudServicesAction extends Action {
                 meaningCloudServicesGeneratorService.generateClassification(node.getPath(), currentLanguage);
                 resultCode = HttpServletResponse.SC_OK;
                 return resultCode;
+            case "categorisation":
+                meaningCloudServicesGeneratorService.generateCategorisation(node.getPath(), currentLanguage);
+                resultCode = HttpServletResponse.SC_OK;
+                return resultCode;
             default:
                 return resultCode;
         }

@@ -5,7 +5,7 @@ import {menuAction,
         registry
         } from '@jahia/ui-extender';
 import {RequestMeaningCloudServicesAction} from './RequestMeaningCloudServicesAction';
-import { Tag, FolderSpecial } from '@jahia/moonstone';
+import { Tag, FolderSpecial, FolderOpen } from '@jahia/moonstone';
 
 export default function () {
 
@@ -15,14 +15,14 @@ export default function () {
         menuItemRenderer: MenuItemRenderer
     });
 
-    registry.add('action', 'meaningCloudMenu', menuActionWithRenderer, {
+    registry.addOrReplace('action', 'meaningCloudMenu', menuActionWithRenderer, {
         buttonLabel: 'meaningCloudServices:label.menu',
         targets: ['contentActions:999'],
         menuTarget: 'meaningCloudMenu',
         isMenuPreload: true
     });
 
-    registry.add('action', 'triggerTopicsRequest',  {
+    registry.addOrReplace('action', 'triggerTopicsRequest',  {
         buttonLabel: 'meaningCloudServices:label.triggerTopicsRequest',
         buttonIcon: <Tag/>,
         targets: ['meaningCloudMenu:1'],
@@ -31,12 +31,21 @@ export default function () {
         component: RequestMeaningCloudServicesAction
     });
 
-    registry.add('action', 'triggerClassificationRequest',  {
-        buttonLabel: 'meaningCloudServices:label.triggerTopicsRequest',
+    registry.addOrReplace('action', 'triggerClassificationRequest',  {
+        buttonLabel: 'meaningCloudServices:label.triggerClassificationRequest',
         buttonIcon: <FolderSpecial/>,
         targets: ['meaningCloudMenu:2'],
         showOnNodeTypes: ['jnt:page', 'jnt:content'],
         service: 'classification',
+        component: RequestMeaningCloudServicesAction
+    });
+
+    registry.addOrReplace('action', 'triggerCategorisationRequest',  {
+        buttonLabel: 'meaningCloudServices:label.triggerCategorisationRequest',
+        buttonIcon: <FolderOpen/>,
+        targets: ['meaningCloudMenu:3'],
+        showOnNodeTypes: ['jnt:page', 'jnt:content'],
+        service: 'categorisation',
         component: RequestMeaningCloudServicesAction
     });
 }

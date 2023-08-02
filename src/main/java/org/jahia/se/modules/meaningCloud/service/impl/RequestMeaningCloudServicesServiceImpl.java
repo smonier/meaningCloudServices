@@ -35,8 +35,54 @@ public class RequestMeaningCloudServicesServiceImpl implements RequestMeaningClo
 
     private String meaningCloudApikey;
     private String meaningCloudClassModel;
+    private String meaningCloudnNamingConvention;
     public  static String inputText ;
 
+    @Override
+    public void generateClassification(String path, String language) {
+            
+        try {
+            String cleanText = getTextFromNode (path,language);
+            JSONArray tagsJsonArray = triggerClassificationRequest(meaningCloudApikey,cleanText,meaningCloudnNamingConvention);
+
+            ArrayList<String> tagsJavaArrayList = new ArrayList<>();
+
+            // Iterate through the JSON array and extract the values
+            for (int i = 0; i < tagsJsonArray.length(); i++) {
+                 JSONObject jsonObject = tagsJsonArray.getJSONObject(i);
+                    // Get the values of the named elements
+                    String[] array = jsonObject.getString("value").split(",\\s*|-\\s*");
+                    for (String item : array) {
+                        tagsJavaArrayList.add(item.trim().replaceAll(" ", "-"));
+                    }
+            }
+            HashSet<String> uniqueSet = new HashSet<>(tagsJavaArrayList);
+
+            // Convert the set back to an array
+            String[] uniqueTagsArray = uniqueSet.toArray(new String[0]);           
+
+            final Locale srcLocale = LanguageCodeConverters.getLocaleFromCode(language);
+            final boolean result = JCRTemplate.getInstance().doExecuteWithSystemSessionAsUser(null, Constants.EDIT_WORKSPACE, srcLocale, (JCRSessionWrapper session) -> {
+                final JCRNodeWrapper node = session.getNode(path);
+                node.setProperty("j:tagList", uniqueTagsArray);              
+                session.save();
+                return true;
+            });
+
+            if (result && LOGGER.isInfoEnabled()) {
+                LOGGER.info(String.format("Tag Added in %s done for %s", language, path));
+            }
+
+        } catch (JSONException message) {
+            LOGGER.error("JSONException: "+message);
+        } catch (ParameterValidationException e) {
+            LOGGER.error("ParameterValidationException: ",e); 
+        } catch (IOException e) {
+            LOGGER.error("IOException: ",e);
+        } catch ( RepositoryException ex) {
+            LOGGER.error("Impossible to retrieve tag: "+String.format("ERROR: Tag retrieval in %s for %s", language, path), ex);
+        }
+    }
     @Override
     public void generateTopics(String path, String language) {
             
@@ -81,11 +127,11 @@ public class RequestMeaningCloudServicesServiceImpl implements RequestMeaningClo
     }
 
     @Override
-    public void generateClassification(String path, String language) {
+    public void generateCategorisation(String path, String language) {
             
         try {
             String cleanText = getTextFromNode (path,language);
-            JSONArray tagsJsonArray = triggerClassificationRequest(meaningCloudApikey,cleanText,meaningCloudClassModel);
+            JSONArray tagsJsonArray = triggerCategorisationRequest(meaningCloudApikey,cleanText,meaningCloudClassModel);
 
             String[] tagsJavaArray = new String[tagsJsonArray.length()];
 
@@ -134,6 +180,7 @@ public class RequestMeaningCloudServicesServiceImpl implements RequestMeaningClo
         if (dictionary != null) {
             meaningCloudApikey = (String) dictionary.get("meaningCloud.apikey");
             meaningCloudClassModel = (String) dictionary.get("meaningCloud.classificationModel");
+            meaningCloudnNamingConvention = (String) dictionary.get("meaningCloud.namingConvention");
         }
         if (!(meaningCloudApikey != null && !meaningCloudApikey.trim().isEmpty()))
             LOGGER.error("MeaningCloud Apikey not defined. Please add it to org.jahia.se.modules.meaningCloudServices.cfg");
@@ -182,6 +229,38 @@ public class RequestMeaningCloudServicesServiceImpl implements RequestMeaningClo
     }
 
     public static JSONArray triggerClassificationRequest (String meaningCloudApiKey,String txt, String model) throws IOException, Request.ParameterValidationException {
+        
+        JSONArray classificationJsonArray = new JSONArray();
+
+        ClassResponse r = ClassRequest
+                .build(meaningCloudApiKey, model)
+                .withText(txt)
+                .send();
+
+        try {
+            List<ClassResponse.Category> categories = r.getCategoryList();
+
+            for (ClassResponse.Category category : categories) {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("relevance", category.getRelevance());
+                jsonObject.put("value",  category.getLabel());
+
+                classificationJsonArray.put(jsonObject);
+            }
+         
+            return classificationJsonArray;
+
+        } catch (JSONException message) {
+            LOGGER.error("JSONException: "+message);
+            return null;
+        
+        } catch (IndexOutOfBoundsException message) {
+            LOGGER.info("IndexOutOfBoundsException: "+message);
+            return null;
+        }
+    }
+
+    public static JSONArray triggerCategorisationRequest (String meaningCloudApiKey,String txt, String model) throws IOException, Request.ParameterValidationException {
         
         JSONArray classificationJsonArray = new JSONArray();
 

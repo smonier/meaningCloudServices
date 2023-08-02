@@ -5,4 +5,7 @@ public interface RequestMeaningCloudServicesService {
 
     public void generateClassification(String path, String language);
 
+    public void generateCategorisation(String path, String language);
+
+
 }
