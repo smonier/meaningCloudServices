@@ -27,9 +27,9 @@ meaningCloud.classificationModel=IAB_2.0-tier4 (you can select a different model
 	- Requesting to Add Interests
 
 ### Screenshots
-![picture](./src/main/resources/images/meaningCloud01.png)
+![picture](./src/main/resources/images/readme/meaningCloud01.png)
 
-![picture](./src/main/resources/images/meaningCloud02.png)
+![picture](./src/main/resources/images/readme/meaningCloud02.png)
 
-![picture](./src/main/resources/images/meaningCloud03.png)
+![picture](./src/main/resources/images/readme/meaningCloud03.png)
 
