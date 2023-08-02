@@ -58,8 +58,8 @@
     <packaging>bundle</packaging>
     <description>This is the custom module (Sample Module) for running on a Jahia server.</description>
     <scm>
-        <connection>scm:git:git://github.com:smonier/meaningCloudServices.git</connection>
-        <developerConnection>scm:git:git://github.com:smonier/meaningCloudServices.git</developerConnection>
+        <connection>scm:git:https://github.com/smonier/meaningCloudServices.git</connection>
+        <developerConnection>scm:git:https://github.com/smonier/meaningCloudServices.git</developerConnection>
       <tag>meaningCloudServices-1.0.0</tag>
   </scm>
     <properties>
