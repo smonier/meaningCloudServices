@@ -60,7 +60,6 @@
     <scm>
         <connection>scm:git:https://github.com/smonier/meaningCloudServices.git</connection>
         <developerConnection>scm:git:https://github.com/smonier/meaningCloudServices.git</developerConnection>
-      <tag>meaningCloudServices-1.0.0</tag>
   </scm>
     <properties>
         <jahia-depends>default,content-editor=4.0.0</jahia-depends>
