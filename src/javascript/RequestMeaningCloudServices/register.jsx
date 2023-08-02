@@ -5,6 +5,7 @@ import {menuAction,
         registry
         } from '@jahia/ui-extender';
 import {RequestMeaningCloudServicesAction} from './RequestMeaningCloudServicesAction';
+import { Tag, FolderSpecial } from '@jahia/moonstone';
 
 export default function () {
 
@@ -21,14 +22,18 @@ export default function () {
         isMenuPreload: true
     });
 
-    registry.add('action', 'meaningCloudServices-triggerTopicsRequest ', {
+    registry.add('action', 'triggerTopicsRequest',  {
+        buttonLabel: 'meaningCloudServices:label.triggerTopicsRequest',
+        buttonIcon: <Tag/>,
         targets: ['meaningCloudMenu:1'],
         showOnNodeTypes: ['jnt:page', 'jnt:content'],
         service: 'topics',
         component: RequestMeaningCloudServicesAction
     });
 
-    registry.add('action', 'meaningCloudServices-triggerClassificationRequest ', {
+    registry.add('action', 'triggerClassificationRequest',  {
+        buttonLabel: 'meaningCloudServices:label.triggerTopicsRequest',
+        buttonIcon: <FolderSpecial/>,
         targets: ['meaningCloudMenu:2'],
         showOnNodeTypes: ['jnt:page', 'jnt:content'],
         service: 'classification',
