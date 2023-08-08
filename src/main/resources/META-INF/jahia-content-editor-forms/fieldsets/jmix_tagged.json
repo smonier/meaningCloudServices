@@ -1,0 +1,11 @@
+{
+    "name": "jmix:tagged",
+    "priority": 1.0,
+    "fields": [
+      {
+        "name": "j:tagList",
+        "description": "",
+        "selectorType": "AutomatedTextTags"
+      }
+    ]
+  }

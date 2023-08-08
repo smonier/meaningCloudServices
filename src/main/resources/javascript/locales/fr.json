@@ -1,0 +1,44 @@
+{
+  "label": {
+    "triggerCategorisationRequest": "Extraire la catégorisation en tant qu'intérêts de <em>{{displayName}}</em> - {{languageDisplay}}",
+    "triggerClassificationRequest": "Extraire la classification en tant que tags de <em>{{displayName}}</em> - {{languageDisplay}}",
+    "triggerTopicsRequest": "Extraire les sujets en tant que tags de <em>{{displayName}}</em> - {{languageDisplay}}",
+    "menu": "Services de Text Analysis Meaning Cloud"
+  },
+  "automatedTextTags": {
+    "title": "Tags automatisés",
+    "objectsList": "Liste d'objets",
+    "action": {
+      "getObjects": "Obtenir les objets",
+      "tagImage": "Taguer l'image"
+    },
+    "tagsField": {
+      "help": "Ajoutez des tags en appuyant sur Entrée. Pour séparer les tags, utilisez une virgule.",
+      "loading": "Chargement",
+      "tag": "Auto-tagging",
+      "empty": "Aucun tag trouvé"
+    },
+    "fileUpload": {
+      "tag": "tag",
+      "tags": "tags"
+    }
+  },
+  "automatedInterests": {
+    "title": "Intérêts automatisés",
+    "objectsList": "Liste d'objets",
+    "action": {
+      "getObjects": "Obtenir les objets",
+      "tagImage": "Taguer l'image"
+    },
+    "tagsField": {
+      "help": "Ajoutez des intérêts:poids en appuyant sur Entrée.",
+      "loading": "Chargement",
+      "tag": "Ajouter des intérêts",
+      "empty": "Aucun intérêt trouvé"
+    },
+    "fileUpload": {
+      "tag": "tag",
+      "tags": "tags"
+    }
+  }
+}

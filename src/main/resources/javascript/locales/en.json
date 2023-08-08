@@ -1,9 +1,45 @@
 
 {
   "label": {
-    "triggerCategorisationRequest": "Extract Categorisation as Interests for <em>{{displayName}}</em> - {{languageDisplay}}",
-    "triggerClassificationRequest": "Extract Classification as Tags for <em>{{displayName}}</em> - {{languageDisplay}}",
-    "triggerTopicsRequest": "Extract Topics as Tags for <em>{{displayName}}</em> - {{languageDisplay}}",
+    "triggerCategorisationRequest": "Extract Categorisation as Interests from <em>{{displayName}}</em> - {{languageDisplay}}",
+    "triggerClassificationRequest": "Extract Classification as Tags from <em>{{displayName}}</em> - {{languageDisplay}}",
+    "triggerTopicsRequest": "Extract Topics as Tags from <em>{{displayName}}</em> - {{languageDisplay}}",
     "menu": "Meaning Cloud Text Services"
+  },
+  "automatedTextTags": {
+    "title": "Automated tags",
+    "objectsList": "Objects list",
+    "action": {
+      "getObjects": "Get objects",
+      "tagImage": "Tag image"
+    },
+    "tagsField": {
+      "help": "Add tags by pressing Enter. To separate tags use a comma.",
+      "loading": "Loading",
+      "tag": "Auto-tagging",
+      "empty": "No tags were found"
+    },
+    "fileUpload": {
+      "tag": "tag",
+      "tags": "tags"
+    }
+  },
+  "automatedInterests": {
+    "title": "Automated Interests",
+    "objectsList": "Objects list",
+    "action": {
+      "getObjects": "Get objects",
+      "tagImage": "Tag image"
+    },
+    "tagsField": {
+      "help": "Add interests:weight by pressing Enter.",
+      "loading": "Loading",
+      "tag": "Add Interests",
+      "empty": "No interests were found"
+    },
+    "fileUpload": {
+      "tag": "tag",
+      "tags": "tags"
+    }
   }
 }

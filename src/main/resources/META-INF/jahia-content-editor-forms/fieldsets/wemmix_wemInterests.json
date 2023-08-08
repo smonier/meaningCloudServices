@@ -1,0 +1,11 @@
+{
+    "name": "wemmix:weminterests",
+    "priority": 2.0,
+    "fields": [
+      {
+        "name": "wem:interests",
+        "description": "",
+        "selectorType": "AutomatedInterests"
+      }
+    ]
+  }
