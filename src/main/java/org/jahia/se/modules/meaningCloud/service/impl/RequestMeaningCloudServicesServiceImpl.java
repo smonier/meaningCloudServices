@@ -1,8 +1,10 @@
 package org.jahia.se.modules.meaningCloud.service.impl;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.*;
 import javax.jcr.RepositoryException;
+import javax.servlet.http.HttpServletResponse;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -37,6 +39,80 @@ public class RequestMeaningCloudServicesServiceImpl implements RequestMeaningClo
     private String meaningCloudClassModel;
     private String meaningCloudnNamingConvention;
     public  static String inputText ;
+
+    @Override
+    public List<String> generateAutoTagsFromClassification(String path, String language) {
+            
+        try {
+                  
+            String cleanText = getTextFromNode (path,language);
+            JSONArray tagsJsonArray = triggerClassificationRequest(meaningCloudApikey,cleanText,meaningCloudnNamingConvention);
+
+            ArrayList<String> tagsJavaArrayList = new ArrayList<>();
+
+            // Iterate through the JSON array and extract the values
+            for (int i = 0; i < tagsJsonArray.length(); i++) {
+                 JSONObject jsonObject = tagsJsonArray.getJSONObject(i);
+                    // Get the values of the named elements
+                    String[] array = jsonObject.getString("value").split(",\\s*|-\\s*");
+                    for (String item : array) {
+                        tagsJavaArrayList.add(item.trim().replaceAll(" ", "-"));
+                    }
+            }
+            HashSet<String> uniqueSet = new HashSet<>(tagsJavaArrayList);
+            // Convert the set back to an array
+            String[] uniqueTagsArray = uniqueSet.toArray(new String[0]);    
+            List<String> tagList = Arrays.asList(uniqueTagsArray);
+            
+            return tagList;
+
+        } catch (JSONException message) {
+            LOGGER.error("JSONException: "+message);
+        } catch (ParameterValidationException e) {
+            LOGGER.error("ParameterValidationException: ",e); 
+        } catch (IOException e) {
+            LOGGER.error("IOException: ",e);
+        }
+        return null;
+    }
+
+    @Override
+    public List<String> generateAutoTagsFromCategorisation(String path, String language) {
+            
+        try {
+                  
+            String cleanText = getTextFromNode (path,language);
+            JSONArray tagsJsonArray = triggerCategorisationRequest(meaningCloudApikey,cleanText,meaningCloudClassModel);
+            LOGGER.info("Text to analyse: "+cleanText);
+            String[] tagsJavaArray = new String[tagsJsonArray.length()];
+
+            // Iterate through the JSON array and extract the values
+            for (int i = 0; i < tagsJsonArray.length(); i++) {
+                 JSONObject jsonObject = tagsJsonArray.getJSONObject(i);
+                // Get the values of the named elements
+                int lastIndex = jsonObject.getString("value").lastIndexOf('>');
+                String interest = jsonObject.getString("value").substring(lastIndex + 1);
+                int interestWeight = (int) jsonObject.getLong("relevance");
+                tagsJavaArray[i] = interest+":"+interestWeight;
+                LOGGER.info("interest: "+tagsJavaArray[i]);
+            }
+            HashSet<String> uniqueSet = new HashSet<>(Arrays.asList(tagsJavaArray));
+
+            // Convert the set back to an array
+            String[] uniqueTagsArray = uniqueSet.toArray(new String[0]);  
+            List<String> interestsList = Arrays.asList(uniqueTagsArray);
+            
+            return interestsList;
+
+        } catch (JSONException message) {
+            LOGGER.error("JSONException: "+message);
+        } catch (ParameterValidationException e) {
+            LOGGER.error("ParameterValidationException: ",e); 
+        } catch (IOException e) {
+            LOGGER.error("IOException: ",e);
+        }
+        return null;
+    }
 
     @Override
     public void generateClassification(String path, String language) {
@@ -327,5 +403,5 @@ public class RequestMeaningCloudServicesServiceImpl implements RequestMeaningClo
    
     }
 
-
+    
 }

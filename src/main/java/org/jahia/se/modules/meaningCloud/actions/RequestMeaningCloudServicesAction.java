@@ -13,9 +13,11 @@ import org.jahia.services.render.RenderContext;
 import org.jahia.services.render.Resource;
 import org.jahia.services.render.URLResolver;
 import org.json.JSONObject;
+import org.json.JSONArray;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+
 
 @Component(service = Action.class, immediate = true)
 public class RequestMeaningCloudServicesAction extends Action {
@@ -32,7 +34,8 @@ public class RequestMeaningCloudServicesAction extends Action {
     private RequestMeaningCloudServicesService meaningCloudServicesGeneratorService;
 
     @Reference(service = RequestMeaningCloudServicesService.class)
-    public void setRequestMeaningCloudServicesService(RequestMeaningCloudServicesService meaningCloudServicesGeneratorService) {
+    public void setRequestMeaningCloudServicesService(
+            RequestMeaningCloudServicesService meaningCloudServicesGeneratorService) {
         this.meaningCloudServicesGeneratorService = meaningCloudServicesGeneratorService;
     }
 
@@ -41,13 +44,34 @@ public class RequestMeaningCloudServicesAction extends Action {
     }
 
     @Override
-    public ActionResult doExecute(HttpServletRequest httpServletRequest, RenderContext renderContext, Resource resource, JCRSessionWrapper jcrSessionWrapper, Map<String, List<String>> map, URLResolver urlResolver) throws Exception {
+    public ActionResult doExecute(HttpServletRequest httpServletRequest, RenderContext renderContext, Resource resource,
+            JCRSessionWrapper jcrSessionWrapper, Map<String, List<String>> map, URLResolver urlResolver)
+            throws Exception {
+        
         final JSONObject resp = new JSONObject();
-        int resultCode = HttpServletResponse.SC_BAD_REQUEST;
-
+        List<String> data;
+        int resultCode =  HttpServletResponse.SC_BAD_REQUEST;
         final String currentLanguage = resource.getLocale().getLanguage();
         String serviceType = map.get("service").get(0);
-        resultCode = getMeaningCloudServices(resource.getNode(), currentLanguage, serviceType);
+        Boolean button = Boolean.valueOf(map.get("button").get(0));
+        
+        if (button) {
+            data = getMeaningCloudServicesForButton(resource.getNode(), currentLanguage, serviceType, button);
+            //ObjectMapper objectMapper = new ObjectMapper();
+
+        // Convert the List<String> to a JSON string
+            //String jsonString = objectMapper.writeValueAsString(data);
+
+            JSONArray jsonArray = new JSONArray(data);
+
+        // Create a JSON object and add the JSON array
+            resp.put("tags", jsonArray);
+            System.out.println("*******************Response " + resp.toString());
+
+            resultCode = HttpServletResponse.SC_OK;
+        } else {
+            resultCode = getMeaningCloudServices(resource.getNode(), currentLanguage, serviceType);
+        }
 
         return new ActionResult(resultCode, null, resp);
     }
@@ -59,7 +83,7 @@ public class RequestMeaningCloudServicesAction extends Action {
             case "topics":
                 meaningCloudServicesGeneratorService.generateTopics(node.getPath(), currentLanguage);
                 resultCode = HttpServletResponse.SC_OK;
-                return resultCode;                
+                return resultCode;
             case "classification":
                 meaningCloudServicesGeneratorService.generateClassification(node.getPath(), currentLanguage);
                 resultCode = HttpServletResponse.SC_OK;
@@ -71,6 +95,18 @@ public class RequestMeaningCloudServicesAction extends Action {
             default:
                 return resultCode;
         }
+    }
+    private List<String> getMeaningCloudServicesForButton(JCRNodeWrapper node, String currentLanguage, String serviceType, Boolean button) {
 
+        switch (serviceType) {
+            case "classification":
+                System.out.println("******************* serviceType" + serviceType);
+                return meaningCloudServicesGeneratorService.generateAutoTagsFromClassification(node.getPath(), currentLanguage);
+            case "categorisation":
+                System.out.println("******************* serviceType" + serviceType);
+                return meaningCloudServicesGeneratorService.generateAutoTagsFromCategorisation(node.getPath(), currentLanguage);
+            default:
+                return null;
+        }
     }
 }

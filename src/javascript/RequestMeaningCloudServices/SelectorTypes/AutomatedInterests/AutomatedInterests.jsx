@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import {Button, Loading, Typography} from '@jahia/moonstone';
 import {withStyles, Grid} from '@material-ui/core';
 import {useTranslation} from 'react-i18next';
+import {useSiteInfo, useNodeInfo} from '@jahia/data-helper';
+import {useSelector} from 'react-redux';
 import {registry} from '@jahia/ui-extender';
 
 const styles = () => ({
@@ -30,21 +32,28 @@ const mergeArrayValues = (a = [], b = []) => {
     return [...new Set([...a, ...b])];
 };
 
-const AutomatedInterests = props => {
-    const client = useApolloClient();
-    const {t} = useTranslation('automated-interests');
-    const [loading, updateLoading] = useState(false);
-    const [error, setError] = useState(null);
-    const {editorContext, onChange, value, classes, service} = props;
-    const {node, nodeLoading: nodeLoading} = useNodeInfo({path: path, language: language}, {getDisplayName: true});
+const AutomatedInterests = ({path, render: Render, ...props}) => {
+    const {t} = useTranslation('meaningCloudServices');
+    const [error, setError,updateLoading] = useState(null);
+    const {editorContext, onChange, value, classes, inputContext} = props;
+    const {language, site} = useSelector(state => ({language: state.language, site: state.site}));
+    const {siteInfo,loading} = useSiteInfo({siteKey: site, displayLanguage: language});
+    const {node, nodeLoading: nodeLoading} = useNodeInfo({path: path, language: language}, {getDisplayName: true});    
+    const managedValue = React.useMemo(() => (value || []), [value]);
 
+    node;
+    siteInfo;
+    nodeLoading;
+    const formData = new FormData();
+    formData.append('language', language);
+    formData.append('service', inputContext.selectorType.service);
+    formData.append('button',true);
 
     const isContent = (editorContext && editorContext.nodeTypeName === 'jnt:news');
-    console.log(`EditorContext: ${editorContext} - ${editorContext.nodeTypeName}`);
-    const TextTag = registry.get('selectorType', 'AutomatedInterests').cmp;
+    const Interests = registry.get('selectorType', 'Text').cmp
 
     return (
-        <Suspense fallback="AutoTextTags ...">
+        <Suspense fallback="AutoInterests ...">
             <Grid
                 container
                 direction="row"
@@ -57,30 +66,41 @@ const AutomatedInterests = props => {
                     </Typography>
                 </Grid>
                 <Grid item>
-                    {<Button variant="outlined"
+                    {isContent && <Button variant="outlined"
                         label={loading ? t('automatedInterests.tagsField.loading') : t('automatedInterests.tagsField.tag')}
                         isDisabled={loading}
                         className={classes.button}
                         icon={loading ? <Loading/> : null}
                         onClick={async () => {
-                            updateLoading(true);
-                            const formData = new FormData();
-                            formData.append('language', language);
-                            formData.append('service', service);
-                            const response = await fetch(`${contextJsParameters.contextPath}/cms/editframe/default/${language}${path}.requestMeaningCloudServices.do`, {
+
+                            const resp = await fetch(`${contextJsParameters.contextPath}/cms/editframe/default/${language}${editorContext.path}.requestMeaningCloudServices.do`, {
                                 method: 'POST',
-                                body: formData
+                                body: formData,
+                                headers: {
+                                    accept: "application/json"
+                                  }
                             });
-                            if (!response.ok) {
-                                const message = `An error has occured: ${response.status}`;
-                                updateLoading(false);
-                                throw new Error(message);
-                              }
- 
-                    }}/> }
+
+                            try {
+
+                                const myData = await resp.json();
+                           
+                                const list = myData.tags;
+                                if (list.length < 1) {
+                                    setError(t('automatedInterests.tagsField.empty'));
+                                    return;
+                                }
+
+              
+                                onChange(mergeArrayValues(managedValue, list.map(a => a.toLowerCase())));
+                            
+                            } catch(e) {
+                                console.log('error:', e.message);
+                            }
+                        }}/> }
                 </Grid>
             </Grid>
-            <TextTag {...props}/>
+            <Interests {...props}/>
             {
                 error &&
                 <Typography color="beta" variant="omega" className={classes.errorMessage}>

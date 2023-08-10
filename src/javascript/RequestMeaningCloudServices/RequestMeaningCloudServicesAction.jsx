@@ -26,6 +26,8 @@ export const RequestMeaningCloudServicesAction = ({path, render: Render, ...othe
                 const formData = new FormData();
                 formData.append('language', language);
                 formData.append('service', otherProps.service);
+                formData.append('button',false);
+
                 const response = await fetch(`${contextJsParameters.contextPath}/cms/editframe/default/${language}${path}.requestMeaningCloudServices.do`, {
                     method: 'POST',
                     body: formData
@@ -42,12 +44,17 @@ export const RequestMeaningCloudServicesAction = ({path, render: Render, ...othe
                 const formData = new FormData();
                 formData.append('language', language);
                 formData.append('service', otherProps.service);
+                formData.append('button',false);
+
                 const response = await fetch(`${contextJsParameters.contextPath}/cms/editframe/default/${language}${path}.requestMeaningCloudServices.do`, {
                     method: 'POST',
                     body: formData
                 });
             }}/>
     } 
+
+    
+
     if (otherProps.service == "categorisation") {
         return <Render {...otherProps}
             buttonLabel={t('label.triggerCategorisationRequest', {
@@ -58,6 +65,8 @@ export const RequestMeaningCloudServicesAction = ({path, render: Render, ...othe
                 const formData = new FormData();
                 formData.append('language', language);
                 formData.append('service', otherProps.service);
+                formData.append('button',false);
+
                 const response = await fetch(`${contextJsParameters.contextPath}/cms/editframe/default/${language}${path}.requestMeaningCloudServices.do`, {
                     method: 'POST',
                     body: formData
