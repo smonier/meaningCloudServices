@@ -1,0 +1,45 @@
+{
+  "label": {
+    "triggerCategorisationRequest": "Extraer Categorización como Intereses de <em>{{displayName}}</em> - {{languageDisplay}}",
+    "triggerClassificationRequest": "Extraer Clasificación como Etiquetas de <em>{{displayName}}</em> - {{languageDisplay}}",
+    "triggerTopicsRequest": "Extraer Temas como Etiquetas de <em>{{displayName}}</em> - {{languageDisplay}}",
+    "menu": "Servicios de Texto de Meaning Cloud"
+  },
+  "automatedTextTags": {
+    "title": "Etiquetas Automatizadas",
+    "objectsList": "Lista de Objetos",
+    "action": {
+      "getObjects": "Obtener objetos",
+      "tagImage": "Etiquetar imagen"
+    },
+    "tagsField": {
+      "help": "Agrega etiquetas presionando Enter. Para separar etiquetas, usa una coma.",
+      "loading": "Cargando",
+      "tag": "Etiquetado Automático de Contenido",
+      "empty": "No se encontraron etiquetas"
+    },
+    "fileUpload": {
+      "tag": "etiqueta",
+      "tags": "etiquetas"
+    }
+  },
+  "automatedInterests": {
+    "title": "Intereses Automatizados",
+    "objectsList": "Lista de Objetos",
+    "action": {
+      "getObjects": "Obtener objetos",
+      "tagImage": "Etiquetar imagen"
+    },
+    "tagsField": {
+      "help": "Agrega intereses:peso (finanzas:50) presionando Enter.",
+      "loading": "Cargando",
+      "tag": "Agregar Intereses Automáticamente",
+      "empty": "No se encontraron intereses",
+      "placeholder": "Escribe para agregar intereses"
+    },
+    "fileUpload": {
+      "tag": "etiqueta",
+      "tags": "etiquetas"
+    }
+  }
+}

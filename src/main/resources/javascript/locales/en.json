@@ -16,7 +16,7 @@
     "tagsField": {
       "help": "Add tags by pressing Enter. To separate tags use a comma.",
       "loading": "Loading",
-      "tag": "Auto-tagging",
+      "tag": "Auto Tag Content",
       "empty": "No tags were found"
     },
     "fileUpload": {
@@ -32,10 +32,11 @@
       "tagImage": "Tag image"
     },
     "tagsField": {
-      "help": "Add interests:weight by pressing Enter.",
+      "help": "Add interests:weight (finance:50) by pressing Enter.",
       "loading": "Loading",
-      "tag": "Add Interests",
-      "empty": "No interests were found"
+      "tag": "Auto Add Interests",
+      "empty": "No interests were found",
+      "placeholder": "Type to add interests"
     },
     "fileUpload": {
       "tag": "tag",

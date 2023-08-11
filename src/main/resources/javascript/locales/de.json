@@ -1,0 +1,45 @@
+{
+  "label": {
+    "triggerCategorisationRequest": "Extrahiere Kategorisierung als Interessen von <em>{{displayName}}</em> - {{languageDisplay}}",
+    "triggerClassificationRequest": "Extrahiere Klassifizierung als Tags von <em>{{displayName}}</em> - {{languageDisplay}}",
+    "triggerTopicsRequest": "Extrahiere Themen als Tags von <em>{{displayName}}</em> - {{languageDisplay}}",
+    "menu": "Meaning Cloud Textdienste"
+  },
+  "automatedTextTags": {
+    "title": "Automatisierte Tags",
+    "objectsList": "Objektliste",
+    "action": {
+      "getObjects": "Objekte erhalten",
+      "tagImage": "Bild taggen"
+    },
+    "tagsField": {
+      "help": "Fügen Sie Tags hinzu, indem Sie Enter drücken. Verwenden Sie ein Komma, um Tags zu trennen.",
+      "loading": "Wird geladen",
+      "tag": "Automatisches Taggen des Inhalts",
+      "empty": "Keine Tags gefunden"
+    },
+    "fileUpload": {
+      "tag": "Tag",
+      "tags": "Tags"
+    }
+  },
+  "automatedInterests": {
+    "title": "Automatisierte Interessen",
+    "objectsList": "Objektliste",
+    "action": {
+      "getObjects": "Objekte erhalten",
+      "tagImage": "Bild taggen"
+    },
+    "tagsField": {
+      "help": "Fügen Sie Interessen:Gewicht (Finanzen:50) hinzu, indem Sie Enter drücken.",
+      "loading": "Wird geladen",
+      "tag": "Automatisches Hinzufügen von Interessen",
+      "empty": "Keine Interessen gefunden",
+      "placeholder": "Tippen Sie, um Interessen hinzuzufügen"
+    },
+    "fileUpload": {
+      "tag": "Tag",
+      "tags": "Tags"
+    }
+  }
+}

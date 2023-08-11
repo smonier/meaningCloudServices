@@ -3,5 +3,10 @@ import AutomatedInterests from './AutomatedInterests';
 
 export const registerInterestsService = registry => {
     console.log('Register AutomatedInterests selector');
-    registry.add('selectorType', Constants.SELECTOR_TYPES.AUTOMATED_INTERESTS, {cmp: AutomatedInterests, supportMultiple: true, service: 'categorisation'});
+    registry.add('selectorType', 
+        Constants.SELECTOR_TYPES.AUTOMATED_INTERESTS, { 
+            cmp: AutomatedInterests, 
+            supportMultiple: true, 
+            service: 'categorisation',
+            "label.placeholder": "meaningCloudServices:automatedInterests.tagsField.placeholder" });
 }

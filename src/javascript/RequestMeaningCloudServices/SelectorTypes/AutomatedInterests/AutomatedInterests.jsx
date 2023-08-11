@@ -36,16 +36,23 @@ const mergeArrayValues = (a = [], b = []) => {
 
 const AutomatedInterests = ({path, render: Render, ...props}) => {
     const {t} = useTranslation('meaningCloudServices');
-    const [error, setError,updateLoading] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
     const {editorContext, onChange, value, classes, inputContext} = props;
     const {language, site} = useSelector(state => ({language: state.language, site: state.site}));
-    const {siteInfo,loading} = useSiteInfo({siteKey: site, displayLanguage: language});
+    const {siteInfo} = useSiteInfo({siteKey: site, displayLanguage: language});
     const {node, nodeLoading: nodeLoading} = useNodeInfo({path: path, language: language}, {getDisplayName: true});    
     const managedValue = React.useMemo(() => (value || []), [value]);
 
-    node;
-    siteInfo;
-    nodeLoading;
+    const errorInit = node?.error || siteInfo?.error || nodeLoading?.error;
+    if (errorInit) {
+        const message = t(
+            'jcontent:label.jcontent.error.queryingContent',
+            {details: errerrorInitor.message ? errorInit.message : ''}
+        );
+
+        console.warn(message);
+    }
 
     const weakNodeInfo = useQuery(weakrefContentPropsQuery, {
         variables:{
@@ -82,14 +89,14 @@ const AutomatedInterests = ({path, render: Render, ...props}) => {
                         {t('automatedInterests.tagsField.help')}
                     </Typography>
                 </Grid>
+
                 <Grid item>
                     {isContent && <Button variant="outlined"
                         label={loading ? t('automatedInterests.tagsField.loading') : t('automatedInterests.tagsField.tag')}
-                        isDisabled={loading}
                         className={classes.button}
                         icon={loading ? <Loading/> : null}
                         onClick={async () => {
-
+                            setLoading(true);
                             const resp = await fetch(`${contextJsParameters.contextPath}/cms/editframe/default/${language}${editorContext.path}.requestMeaningCloudServices.do`, {
                                 method: 'POST',
                                 body: formData,
@@ -97,27 +104,30 @@ const AutomatedInterests = ({path, render: Render, ...props}) => {
                                     accept: "application/json"
                                   }
                             });
-
+                            
                             try {
+                                setLoading(true);
 
-                                const myData = await resp.json();
-                           
+                                const myData = await resp.json();         
+                                
                                 const list = myData.tags;
                                 if (list.length < 1) {
                                     setError(t('automatedInterests.tagsField.empty'));
                                     return;
                                 }
-
-              
                                 onChange(mergeArrayValues(managedValue, list.map(a => a.toLowerCase())));
-                            
                             } catch(e) {
                                 console.log('error:', e.message);
+                            } finally {
+                                setLoading(false);
                             }
-                        }}/> }
+                        }}/> 
+                    }
                 </Grid>
             </Grid>
-            <Tag {...props}/>
+            <Tag {...props}
+                placeholder={t('automatedInterests.tagsField.placeholder')}
+            />
             {
                 error &&
                 <Typography color="beta" variant="omega" className={classes.errorMessage}>

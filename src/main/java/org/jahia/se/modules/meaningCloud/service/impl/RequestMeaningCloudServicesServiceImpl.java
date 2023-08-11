@@ -1,10 +1,8 @@
 package org.jahia.se.modules.meaningCloud.service.impl;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.*;
 import javax.jcr.RepositoryException;
-import javax.servlet.http.HttpServletResponse;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

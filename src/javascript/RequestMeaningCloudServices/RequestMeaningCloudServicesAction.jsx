@@ -2,7 +2,6 @@ import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {useSiteInfo, useNodeInfo} from '@jahia/data-helper';
 import {useSelector} from 'react-redux';
-import {toIconComponentFunction} from '@jahia/moonstone';
 
 export const RequestMeaningCloudServicesAction = ({path, render: Render, ...otherProps}) => {
 

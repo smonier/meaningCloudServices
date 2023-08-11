@@ -57,17 +57,8 @@ public class RequestMeaningCloudServicesAction extends Action {
         
         if (button) {
             data = getMeaningCloudServicesForButton(resource.getNode(), currentLanguage, serviceType, button);
-            //ObjectMapper objectMapper = new ObjectMapper();
-
-        // Convert the List<String> to a JSON string
-            //String jsonString = objectMapper.writeValueAsString(data);
-
             JSONArray jsonArray = new JSONArray(data);
-
-        // Create a JSON object and add the JSON array
             resp.put("tags", jsonArray);
-            System.out.println("*******************Response " + resp.toString());
-
             resultCode = HttpServletResponse.SC_OK;
         } else {
             resultCode = getMeaningCloudServices(resource.getNode(), currentLanguage, serviceType);
@@ -100,10 +91,8 @@ public class RequestMeaningCloudServicesAction extends Action {
 
         switch (serviceType) {
             case "classification":
-                System.out.println("******************* serviceType" + serviceType);
                 return meaningCloudServicesGeneratorService.generateAutoTagsFromClassification(node.getPath(), currentLanguage);
             case "categorisation":
-                System.out.println("******************* serviceType" + serviceType);
                 return meaningCloudServicesGeneratorService.generateAutoTagsFromCategorisation(node.getPath(), currentLanguage);
             default:
                 return null;

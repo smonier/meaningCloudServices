@@ -6,7 +6,6 @@ import {useTranslation} from 'react-i18next';
 import {useSiteInfo, useNodeInfo} from '@jahia/data-helper';
 import {useSelector} from 'react-redux';
 import {registry} from '@jahia/ui-extender';
-import { buttonSizes } from '@jahia/moonstone/dist/components/Button/Button.types';
 import {weakrefContentPropsQuery} from "../Components";
 import {useQuery} from "@apollo/react-hooks";
 
@@ -37,15 +36,23 @@ const mergeArrayValues = (a = [], b = []) => {
 
 const AutomatedTextTags = ({path, render: Render, ...props}) => {
     const {t} = useTranslation('meaningCloudServices');
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const {editorContext, onChange, value, classes, inputContext} = props;
     const {language, site} = useSelector(state => ({language: state.language, site: state.site}));
-    const {siteInfo,loading} = useSiteInfo({siteKey: site, displayLanguage: language});
+    const {siteInfo} = useSiteInfo({siteKey: site, displayLanguage: language});
     const {node, nodeLoading: nodeLoading} = useNodeInfo({path: path, language: language}, {getDisplayName: true});    
 
-    node;
-    siteInfo;
-    nodeLoading;
+
+    const errorInit = node?.error || siteInfo?.error || nodeLoading?.error;
+    if (errorInit) {
+        const message = t(
+            'jcontent:label.jcontent.error.queryingContent',
+            {details: errerrorInitor.message ? errorInit.message : ''}
+        );
+
+        console.warn(message);
+    }
 
     const weakNodeInfo = useQuery(weakrefContentPropsQuery, {
         variables:{
@@ -84,10 +91,10 @@ const AutomatedTextTags = ({path, render: Render, ...props}) => {
                 <Grid item>
                     {isContent && <Button variant="outlined"
                         label={loading ? t('automatedTextTags.tagsField.loading') : t('automatedTextTags.tagsField.tag')}
-                        isDisabled={loading}
                         className={classes.button}
                         icon={loading ? <Loading/> : null}
                         onClick={async () => {
+                            setLoading(true);
 
                             const resp = await fetch(`${contextJsParameters.contextPath}/cms/editframe/default/${language}${editorContext.path}.requestMeaningCloudServices.do`, {
                                 method: 'POST',
@@ -98,17 +105,18 @@ const AutomatedTextTags = ({path, render: Render, ...props}) => {
                             });
 
                             try {
+                                setLoading(true);
                                 const myData = await resp.json();                                              
                                 const list = myData.tags;
                                 if (list.length < 1) {
                                     setError(t('automatedTextTags.tagsField.empty'));
                                     return;
                                 }
-
                                 onChange(mergeArrayValues(value, list.map(a => a.toLowerCase())));
-                            
                             } catch(e) {
                                 console.log('error:', e.message);
+                            } finally {
+                                setLoading(false);
                             }
                         }}
                     /> }

@@ -15,7 +15,7 @@
     "tagsField": {
       "help": "Ajoutez des tags en appuyant sur Entrée. Pour séparer les tags, utilisez une virgule.",
       "loading": "Chargement",
-      "tag": "Auto-tagging",
+      "tag": "Taguage automatique du contenu",
       "empty": "Aucun tag trouvé"
     },
     "fileUpload": {
@@ -33,7 +33,7 @@
     "tagsField": {
       "help": "Ajoutez des intérêts:poids en appuyant sur Entrée.",
       "loading": "Chargement",
-      "tag": "Ajouter des intérêts",
+      "tag": "Ajouter automatiquement des intérêts",
       "empty": "Aucun intérêt trouvé"
     },
     "fileUpload": {
