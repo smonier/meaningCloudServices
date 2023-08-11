@@ -1,5 +1,5 @@
 
-# Content Auto Tagging with Meaning Cloud Text Analysis Text Services
+# Content Auto Tagging with Meaning Cloud Text Analysis Services
 
 The aim of this module is to leverage Meaning Cloud Text Analysis Services for the following purposes:
 - Automate the creation of page and content tags using Topics Extraction API version 2.0 (https://learn.meaningcloud.com/developer/topics-extraction/2.0/doc)
