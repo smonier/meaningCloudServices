@@ -62,6 +62,7 @@ public class RequestMeaningCloudServicesServiceImpl implements RequestMeaningClo
             HashSet<String> uniqueSet = new HashSet<>(tagsJavaArrayList);
             // Convert the set back to an array
             String[] uniqueTagsArray = uniqueSet.toArray(new String[0]);    
+            Arrays.sort(uniqueTagsArray);
             List<String> tagList = Arrays.asList(uniqueTagsArray);
             
             return tagList;
@@ -100,6 +101,12 @@ public class RequestMeaningCloudServicesServiceImpl implements RequestMeaningClo
 
             // Convert the set back to an array
             String[] uniqueTagsArray = uniqueSet.toArray(new String[0]);  
+
+            Arrays.sort(uniqueTagsArray, Comparator.comparing(s -> {
+                int lastIndex = s.lastIndexOf(":");
+                return lastIndex == -1 ? s : s.substring(lastIndex);
+            }));
+
             List<String> interestsList = Arrays.asList(uniqueTagsArray);
             
             return interestsList;
@@ -136,6 +143,7 @@ public class RequestMeaningCloudServicesServiceImpl implements RequestMeaningClo
 
             // Convert the set back to an array
             String[] uniqueTagsArray = uniqueSet.toArray(new String[0]);           
+            Arrays.sort(uniqueTagsArray);
 
             final Locale srcLocale = LanguageCodeConverters.getLocaleFromCode(language);
             final boolean result = JCRTemplate.getInstance().doExecuteWithSystemSessionAsUser(null, Constants.EDIT_WORKSPACE, srcLocale, (JCRSessionWrapper session) -> {
@@ -178,6 +186,7 @@ public class RequestMeaningCloudServicesServiceImpl implements RequestMeaningClo
 
             // Convert the set back to an array
             String[] uniqueTagsArray = uniqueSet.toArray(new String[0]);           
+            Arrays.sort(uniqueTagsArray);
 
             final Locale srcLocale = LanguageCodeConverters.getLocaleFromCode(language);
             final boolean result = JCRTemplate.getInstance().doExecuteWithSystemSessionAsUser(null, Constants.EDIT_WORKSPACE, srcLocale, (JCRSessionWrapper session) -> {
@@ -225,7 +234,10 @@ public class RequestMeaningCloudServicesServiceImpl implements RequestMeaningClo
 
             // Convert the set back to an array
             String[] uniqueTagsArray = uniqueSet.toArray(new String[0]);           
-
+            Arrays.sort(uniqueTagsArray, Comparator.comparing(s -> {
+                int lastIndex = s.lastIndexOf(":");
+                return lastIndex == -1 ? s : s.substring(lastIndex);
+            }));
             final Locale srcLocale = LanguageCodeConverters.getLocaleFromCode(language);
             final boolean result = JCRTemplate.getInstance().doExecuteWithSystemSessionAsUser(null, Constants.EDIT_WORKSPACE, srcLocale, (JCRSessionWrapper session) -> {
                 final JCRNodeWrapper node = session.getNode(path);

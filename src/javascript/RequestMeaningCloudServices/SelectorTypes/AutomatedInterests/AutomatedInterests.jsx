@@ -6,6 +6,8 @@ import {useTranslation} from 'react-i18next';
 import {useSiteInfo, useNodeInfo} from '@jahia/data-helper';
 import {useSelector} from 'react-redux';
 import {registry} from '@jahia/ui-extender';
+import {weakrefContentPropsQuery} from "../Components";
+import {useQuery} from "@apollo/react-hooks";
 
 const styles = () => ({
     button: {
@@ -44,13 +46,28 @@ const AutomatedInterests = ({path, render: Render, ...props}) => {
     node;
     siteInfo;
     nodeLoading;
+
+    const weakNodeInfo = useQuery(weakrefContentPropsQuery, {
+        variables:{
+            uuid : editorContext.nodeData.displayableNode.uuid
+        },
+        skip: !editorContext.nodeData.displayableNode.uuid
+    });
+
+    const weakNode = weakNodeInfo?.data?.jcr?.result;
+    const superTypes = weakNode?.primaryNodeType.supertypes?.map(({name}) => name) || [];
+    const mixinTypes = weakNode?.mixinTypes.map(({name}) => name) || [];
+    const primaryNodeType = weakNode?.primaryNodeType?.name;
+    const valueNodeTypes = [primaryNodeType,...superTypes,...mixinTypes];
+    const isContent = (editorContext && valueNodeTypes.includes("jnt:content")) || (editorContext && valueNodeTypes.includes("jnt:page"));
+
     const formData = new FormData();
     formData.append('language', language);
     formData.append('service', inputContext.selectorType.service);
     formData.append('button',true);
 
-    const isContent = (editorContext && editorContext.nodeTypeName === 'jnt:news');
     const Interests = registry.get('selectorType', 'Text').cmp
+    const Tag = registry.get('selectorType', 'Tag').cmp;
 
     return (
         <Suspense fallback="AutoInterests ...">
@@ -100,7 +117,7 @@ const AutomatedInterests = ({path, render: Render, ...props}) => {
                         }}/> }
                 </Grid>
             </Grid>
-            <Interests {...props}/>
+            <Tag {...props}/>
             {
                 error &&
                 <Typography color="beta" variant="omega" className={classes.errorMessage}>

@@ -44,7 +44,9 @@
         please contact the sales department at sales@jahia.com.
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>jahia-modules</artifactId>
@@ -60,32 +62,33 @@
     <scm>
         <connection>scm:git:https://github.com/smonier/meaningCloudServices.git</connection>
         <developerConnection>scm:git:https://github.com/smonier/meaningCloudServices.git</developerConnection>
-    <tag>HEAD</tag>
-  </scm>
+        <tag>HEAD</tag>
+    </scm>
     <properties>
         <jahia-depends>default,content-editor=4.0.0</jahia-depends>
         <jahia.plugin.version>6.0</jahia.plugin.version>
-        <require-capability>osgi.extender;filter:="(osgi.extender=org.jahia.bundles.blueprint.extender.config)"</require-capability>
+        <require-capability>
+            osgi.extender;filter:="(osgi.extender=org.jahia.bundles.blueprint.extender.config)"</require-capability>
         <yarn.arguments>build:production</yarn.arguments>
     </properties>
-<dependencies>
-    <dependency>
-        <groupId>org.jsoup</groupId>
-        <artifactId>jsoup</artifactId>
-        <version>1.16.1</version>
-    </dependency>
-<!-- https://mvnrepository.com/artifact/com.meaningcloud/meaningcloud-sdk -->
-<dependency>
-    <groupId>com.meaningcloud</groupId>
-    <artifactId>meaningcloud-sdk</artifactId>
-    <version>2.0.1</version>
-</dependency>
-<dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-databind</artifactId>
-           <version>2.15.2</version>
-    </dependency>
-</dependencies>
+    <dependencies>
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.16.1</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.meaningcloud/meaningcloud-sdk -->
+        <dependency>
+            <groupId>com.meaningcloud</groupId>
+            <artifactId>meaningcloud-sdk</artifactId>
+            <version>2.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.15.2</version>
+        </dependency>
+    </dependencies>
     <repositories>
         <repository>
             <id>jahia-public</id>
@@ -110,6 +113,7 @@
                 <configuration>
                     <instructions>
                         <Jahia-Depends>default</Jahia-Depends>
+                        <Jahia-Static-Resources>/css,/fonts,/javascript,/images,/icons,/img</Jahia-Static-Resources>
                     </instructions>
                 </configuration>
             </plugin>

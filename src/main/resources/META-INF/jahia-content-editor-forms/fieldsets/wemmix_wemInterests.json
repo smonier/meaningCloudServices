@@ -4,6 +4,11 @@
     "fields": [
       {
         "name": "wem:interests",
+        "target": {
+          "sectionName" : "classification",
+          "fieldSetName" : "jmix:tagged",
+          "rank": -1
+        },
         "description": "",
         "selectorType": "AutomatedInterests"
       }
